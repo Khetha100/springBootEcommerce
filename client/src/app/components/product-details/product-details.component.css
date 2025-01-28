@@ -1,0 +1,98 @@
+.product-details-container {
+  width: 70%;
+  margin: 50px auto;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  align-items: center;
+}
+
+.product-image img {
+  max-width: 250px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sizes-container {
+  display: flex;
+  gap: 10px;
+}
+
+.sizes {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sizes:hover {
+  background-color: black;
+  color: white;
+}
+
+.add-btn {
+  background-color: #ff9f1a;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+  background-color: #b36800;
+}
+
+.product-details-footer {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  text-align: left;
+}
+
+.product-details-footer h5 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.product-details-footer p {
+  margin: 5px 0;
+  line-height: 1.6;
+}
+
+.see-more-btn {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: grey;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.see-more-btn:hover {
+  background-color: #505050;
+}

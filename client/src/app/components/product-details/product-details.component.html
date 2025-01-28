@@ -1,0 +1,58 @@
+<section class="product-details-container">
+  <div class="card">
+    <div class="product-image">
+      <img
+        [src]="product?.thumbnail_url"
+        class="card-img-top"
+        [alt]="product?.name || 'Product Image'"
+      />
+    </div>
+
+    <div class="card-body">
+      <div class="sizes-container">
+        <button type="button" class="sizes">S</button>
+        <button type="button" class="sizes">M</button>
+        <button type="button" class="sizes">L</button>
+      </div>
+      @if(loginService.usernameEmail.value ==""){
+        <button
+        type="button"
+        class="add-btn btn btn-primary"
+        (click)="alertFunc()"
+      >
+        Add to Cart
+      </button>
+
+      }@else {
+        <button
+        type="button"
+        class="add-btn btn btn-primary"
+        (click)="addToCart()"
+      >
+        Add to Cart
+      </button>
+      }
+
+
+    </div>
+  </div>
+
+  <div class="product-details-footer">
+    <h5 class="card-title">{{ product?.name }}</h5>
+    <p><strong>ID:</strong> {{ product?.id }}</p>
+    <p><strong>Price:</strong> R{{ product?.price }}</p>
+    <p><strong>Description:</strong> {{ product?.short_description }}</p>
+    <p>
+      <strong>Long Description:</strong> This is the long description for
+      {{ product?.long_description }}.
+    </p>
+
+    <button
+        type="button"
+        class="see-more-btn btn btn-secondary"
+        (click)="goBackToProducts()"
+      >
+        See More Products
+      </button>
+  </div>
+</section>
