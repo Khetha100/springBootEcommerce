@@ -1,4 +1,6 @@
 package com.subserve.server.service.serviceImpl;
 
-public class UserServiceImpl {
+import com.subserve.server.service.UserService;
+
+public class UserServiceImpl implements UserService {
 }

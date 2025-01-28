@@ -1,4 +1,6 @@
 package com.subserve.server.service.serviceImpl;
 
-public class CartServiceImpl {
+import com.subserve.server.service.CartService;
+
+public class CartServiceImpl implements CartService {
 }
