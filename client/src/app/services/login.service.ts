@@ -1,35 +1,38 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { LoginToken } from '../types/LoginToken.interface';
+import { environment } from '../../environments/environment.development';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private loginUrl: string = 'http://localhost:3000';
+  private loginUrl = environment.SERVER;
+  private registerUrl = environment.SERVER;
+  token: LoginToken = {};
+  usernameEmail: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private router: Router) {
     const storedEmail = localStorage.getItem('userEmail');
     if (storedEmail) {
       this.usernameEmail.next(storedEmail);
     }
   }
-  usernameEmail: BehaviorSubject<string> = new BehaviorSubject<string>('');
-
   login(email: string, password: string) {
-    const body = { email, password };
-
     this.usernameEmail.next(email);
-    localStorage.setItem('userEmail', email);
-
-    console.log('User logged in: ', email);
+    const body = { email, password };
+    return this.http.post<any>(`${this.loginUrl}/login`, body);
   }
 
   logout() {
-    localStorage.removeItem('userEmail');
+    localStorage.removeItem('token');
     this.usernameEmail.next('');
-    console.log('User logged out');
+    this.router.navigate(['']).then(() => {
+      window.location.reload();
+    })
   }
 
   register(
@@ -37,16 +40,15 @@ export class LoginService {
     surname: string,
     phone_number: string,
     email: string,
-    password: string
+    password: string,
   ) {
-    console.log('At register front end service');
     const body = { name, surname, phone_number, email, password };
-    return this.http.post<any>(`${this.loginUrl}/register`, body);
+    return this.http.post<any>(`${this.registerUrl}/register`, body);
   }
 
   updateUser(
     id: string,
-    updates: { name?: string; email?: string; phone_number?: string }
+    updates: { name?: string; email?: string; phone_number?: string },
   ) {
     return this.http.post<any>(`${this.loginUrl}/users/${id}`, updates);
   }

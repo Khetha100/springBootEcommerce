@@ -1,30 +1,52 @@
-import { RouterModule, Routes } from '@angular/router';
-import { HelpComponent } from './components/help/help.component';
-import { NavComponent } from './components/nav/nav.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { AboutComponent } from './components/about/about.component';
-import { ProductListComponent } from './components/product-list/product-list.component';
-import { ProductDetailsComponent } from './components/product-details/product-details.component';
-import { CartComponent } from './components/cart/cart.component';
-import { OrdersComponent } from './components/orders/orders.component';
-import { ShoppingComponent } from './components/shopping/shopping.component';
-import { LandingPageComponent } from './component/landing-page/landing-page.component';
-import { LoginPageComponent } from './login-page/login-page.component';
-import { RegisterPageComponent } from './register-page/register-page.component';
+import { Routes } from '@angular/router';
+import { AboutComponent } from './ui/about/about.component';
+import { CartComponent } from './ui/cart/cart.component';
+import { HelpComponent } from './ui/help/help.component';
+import { OrdersComponent } from './ui/orders/orders.component';
+import { ProductDetailsComponent } from './ui/product-details/product-details.component';
+import { ProductsPageComponent } from './ui/products-page/products-page.component';
+
+import { LoginComponent } from './ui/login/login.component';
+import { RegisterComponent } from './ui/register/register.component';
+import { LandingPageComponent } from './ui/landing-page/landing-page.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent },
-  { path: 'products', component: ProductListComponent },
-  { path: 'products/:id', component: ProductDetailsComponent },
-  { path: 'cart', component: CartComponent },
   { path: 'orders', component: OrdersComponent },
-  { path: 'shopping', component: ShoppingComponent },
+  {
+    path: 'cart',
+    component: CartComponent,
+    children: [{ path: 'orders', component: OrdersComponent }],
+  },
+
+  {
+    path: 'productsDetails',
+    component: ProductDetailsComponent,
+    children: [{ path: 'cart', component: CartComponent }],
+  },
   { path: 'help', component: HelpComponent },
   { path: 'about', component: AboutComponent },
-  { path: '', component: LoginPageComponent },
-  { path: 'register', component: RegisterPageComponent },
-  { path: 'login', component: LoginPageComponent },
-  // { path: '', redirectTo: '', pathMatch: 'full' }
-  // { path: "nav", component: NavComponent },
-  // { path: "footer", component: FooterComponent}
+  { path: 'about', component: AboutComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'products', component: ProductsPageComponent, pathMatch: 'full' },
+  {
+    path: 'products/:id',
+    component: ProductDetailsComponent,
+    pathMatch: 'full',
+  },
+  { path: 'products', component: ProductsPageComponent, pathMatch: 'full' },
+  {
+    path: 'products/:id',
+    component: ProductDetailsComponent,
+    pathMatch: 'full',
+  },
+  { path: 'products', component: ProductsPageComponent, pathMatch: 'full' },
+  {
+    path: 'products/:id',
+    component: ProductDetailsComponent,
+    pathMatch: 'full',
+  },
+  { path: '', component: LandingPageComponent },
 ];
+
