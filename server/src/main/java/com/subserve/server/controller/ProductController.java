@@ -3,10 +3,7 @@ package com.subserve.server.controller;
 import com.subserve.server.model.Product;
 import com.subserve.server.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +20,8 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public Product getProductById(@RequestParam Long id){
-        return productRepository.findById(id).orElse(null);
+    public Product getProductById(@PathVariable Long id){
+        Product product = productRepository.findById(id).orElse(null);
+        return product;
     }
 }

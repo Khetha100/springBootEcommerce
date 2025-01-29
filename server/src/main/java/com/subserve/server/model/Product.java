@@ -22,13 +22,17 @@ public class Product {
     private String price;
 
     @Column(name="short_description")
-    private String shortDescription;
+    private String short_description;
+
+    @Column(name="long_description")
+    private String long_description;
 
     @Column(name="thumbnail_url")
-    private String thumbnailUrl;
+    private String thumbnail_url;
+
 
     @Column(name="on_hand")
-    private int onHand;
+    private int on_hand;
 
 
 }

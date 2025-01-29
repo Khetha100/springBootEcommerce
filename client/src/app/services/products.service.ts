@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 import { ProductsInterface } from '../types/products.interface';
 import { JwtHeaderService } from './jwt-interceptor.service';
-import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +11,12 @@ import { environment } from '../../environments/environment.development';
 export class ProductsService {
   url = environment.SERVER;
 
-  constructor(private http: HttpClient, private jwtHeaderService: JwtHeaderService) { }
-  
+  constructor(
+    private http: HttpClient,
+    private jwtHeaderService: JwtHeaderService,
+  ) {}
 
   products = signal<ProductsInterface[]>([]);
-  
 
   getProducts(): Observable<ProductsInterface[]> {
     this.jwtHeaderService.token = localStorage.getItem('token');
@@ -23,10 +24,9 @@ export class ProductsService {
     return this.http.get<ProductsInterface[]>(`${this.url}/products`);
   }
 
-  getProductById(id: number): Observable<ProductsInterface[]> {
+  getProductById(id: number): Observable<ProductsInterface> {
     const headers = this.jwtHeaderService.createHeaders();
-    return this.http.get<ProductsInterface[]>(`${this.url}/products/${id}`);
+    console.log(id);
+    return this.http.get<ProductsInterface>(`${this.url}/products/${id}`);
   }
-
-  
 }

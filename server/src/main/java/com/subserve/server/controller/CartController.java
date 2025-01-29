@@ -25,7 +25,8 @@ public class CartController {
     }
 
     @PostMapping("saveCartItem")
-    public Cart saveCartItem(@RequestBody Cart cart){
+    public Cart saveCartItem(@RequestBody Cart cart) {
+        System.out.println(cart);
         return cartRepository.save(cart);
     }
 
@@ -35,7 +36,7 @@ public class CartController {
         cObj.setDescription(cart.getDescription());
         cObj.setName(cart.getName());
         cObj.setPrice(cart.getPrice());
-        cObj.setImageUrl(cart.getImageUrl());
+        cObj.setImageurl(cart.getImageurl());
         cObj.setQuantity(cart.getQuantity());
         cObj.setOrdered(cart.isOrdered());
         cObj.setSoftDelete(cart.isSoftDelete());
@@ -48,7 +49,7 @@ public class CartController {
         cObj.setDescription(cart.getDescription());
         cObj.setName(cart.getName());
         cObj.setPrice(cart.getPrice());
-        cObj.setImageUrl(cart.getImageUrl());
+        cObj.setImageurl(cart.getImageurl());
         cObj.setQuantity(cart.getQuantity());
         cObj.setOrdered(cart.isOrdered());
         cObj.setSoftDelete(cart.isSoftDelete());

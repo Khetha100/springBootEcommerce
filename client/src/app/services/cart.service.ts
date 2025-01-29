@@ -1,12 +1,11 @@
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { CartItems } from '../types/cartInterface.interface';
-import { catchError, map, Observable, of, Subscription, throwError } from 'rxjs';
-import { LoginService } from './login.service';
-import { environment } from '../../environments/environment.development';
-import { JwtHeaderService } from './jwt-interceptor.service';
 import { Router } from '@angular/router';
-
+import { Observable, Subscription } from 'rxjs';
+import { environment } from '../../environments/environment.development';
+import { CartItems } from '../types/cartInterface.interface';
+import { JwtHeaderService } from './jwt-interceptor.service';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -97,7 +96,7 @@ export class CartService {
     });
 
     if (toUpdate) {
-      console.log("Product update to be contacted");
+      console.log('Product update to be contacted');
       this.jwtHeaderService.token = localStorage.getItem('token');
       const headers = this.jwtHeaderService.createHeaders();
       return this.http.put<CartItems>(
@@ -107,15 +106,12 @@ export class CartService {
       );
     }
 
-    console.log("about to send to save endpoint")
+    console.log('about to send to save endpoint');
+    console.log(product);
     this.jwtHeaderService.token = localStorage.getItem('token');
     const headers = this.jwtHeaderService.createHeaders();
     return this.http.post<CartItems>(this.apiUrl + '/saveCartItem', product, {
       headers,
     });
   }
-
-
-
-
 }

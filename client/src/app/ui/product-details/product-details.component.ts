@@ -1,14 +1,13 @@
-import { JwtHeaderService } from './../../services/jwt-interceptor.service';
-import { Component, input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ProductsInterface } from '../../types/products.interface';
-import { ProductsService } from '../../services/products.service';
 import { CommonModule } from '@angular/common';
-import { LoginService } from '../../services/login.service';
-import { CartService } from '../../services/cart.service';
-import { CartItems } from '../../types/cartInterface.interface';
-import { catchError, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CartService } from '../../services/cart.service';
+import { LoginService } from '../../services/login.service';
+import { ProductsService } from '../../services/products.service';
+import { CartItems } from '../../types/cartInterface.interface';
+import { ProductsInterface } from '../../types/products.interface';
+import { JwtHeaderService } from './../../services/jwt-interceptor.service';
 
 @Component({
   selector: 'app-product-details',
@@ -47,7 +46,8 @@ export class ProductDetailsComponent {
         this.productsService.getProductById(productId).subscribe(
           (product) => {
             // If a single product is returned (not an array), directly assign it
-            this.product = product[0];
+
+            this.product = product;
           },
           (error) => {
             console.error('Error fetching product:', error);
@@ -96,24 +96,20 @@ export class ProductDetailsComponent {
         ordered: ordered,
       };
 
-
       this.route.params.subscribe((params) => {
         const productId = Number(params['id']);
       });
 
       try {
-        this.cartService
-          .saveCartProduct(cartItem)
-          .subscribe({
-            next: (data) => {
-              console.log(data);
-              location.reload();
-            },
-            error: (err) => {
-              console.error('Error adding shipping address:', err);
-            },
-          }
-        );
+        this.cartService.saveCartProduct(cartItem).subscribe({
+          next: (data) => {
+            console.log(data);
+            location.reload();
+          },
+          error: (err) => {
+            console.error('Error adding shipping address:', err);
+          },
+        });
       } catch (err) {
         console.log('error encountered');
       }

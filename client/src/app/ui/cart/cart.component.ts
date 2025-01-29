@@ -1,19 +1,23 @@
-import { ShippingService } from './../../services/shipping.service';
-import { Component, inject, OnInit } from '@angular/core';
-import { OrdersComponent } from "../orders/orders.component";
-import { CartItems } from '../../types/cartInterface.interface';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CartService } from '../../services/cart.service';
 import { CommonModule } from '@angular/common';
-import { TaxService } from '../../services/tax.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
+import { CartService } from '../../services/cart.service';
+import { JwtHeaderService } from '../../services/jwt-interceptor.service';
 import { LoginService } from '../../services/login.service';
 import { ProductsService } from '../../services/products.service';
+import { TaxService } from '../../services/tax.service';
+import { CartItems } from '../../types/cartInterface.interface';
 import { ProductsInterface } from '../../types/products.interface';
-import { JwtHeaderService } from '../../services/jwt-interceptor.service';
-import { catchError, throwError } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
-
+import { OrdersComponent } from '../orders/orders.component';
+import { ShippingService } from './../../services/shipping.service';
 
 @Component({
   selector: 'app-cart',
@@ -37,7 +41,7 @@ export class CartComponent implements OnInit {
     public loginService: LoginService,
     public productService: ProductsService,
     public jwtHeaderService: JwtHeaderService,
-    public shippingService:ShippingService
+    public shippingService: ShippingService,
   ) {
     this.jwtHeaderService.token = localStorage.getItem('token');
     this.cartForm = this.fb.group({
@@ -89,7 +93,6 @@ export class CartComponent implements OnInit {
 
   shippingCharges: number = 20;
 
-
   /**
    * Calculates the total price for a single item in the cart.
    *
@@ -140,9 +143,11 @@ export class CartComponent implements OnInit {
   }
 
   getTaxPrice() {
-    return Math.round(this.taxService.taxAmount(this.getTotalPrice()*100, 15))/100;
+    return (
+      Math.round(this.taxService.taxAmount(this.getTotalPrice() * 100, 15)) /
+      100
+    );
   }
-
 
   getTotalWithShippingAndTax() {
     return (
@@ -200,29 +205,25 @@ export class CartComponent implements OnInit {
     this.cartService.updateProduct(item).subscribe((data) => {});
   }
   increaseQuantity(item: CartItems) {
-
     const myProduct: ProductsInterface | undefined = this.productService
       .products()
       .find((product) => product.name === item.name);
 
-      if (myProduct) {
-
-        if (myProduct.on_hand - item.quantity > 0) {
-          console.log(myProduct.on_hand)
-          item.quantity++;
-          this.cartService.updateProduct(item).subscribe((data) => {
-            console.log(data);
-          });
-          } else {
-            alert('Products selected exceeds available stock');
-            return;
-
+    if (myProduct) {
+      if (myProduct.on_hand - item.quantity > 0) {
+        console.log(myProduct.on_hand);
+        item.quantity++;
+        this.cartService.updateProduct(item).subscribe((data) => {
+          console.log(data);
+        });
+      } else {
+        alert('Products selected exceeds available stock');
+        return;
       }
 
-
-    this.cartService.updateProduct(item).subscribe((data) => {});
+      this.cartService.updateProduct(item).subscribe((data) => {});
+    }
   }
-}
 
   getCartQuantity() {
     return this.cartService
@@ -305,11 +306,10 @@ export class CartComponent implements OnInit {
         this.shippingForm.value.postalCode,
         this.shippingForm.value.phoneNumber,
         this.shippingForm.value.email,
-        item
+        item,
       );
     });
     console.log(this.shippingForm.value);
-
   }
 
   getCartItems() {
@@ -339,6 +339,7 @@ export class CartComponent implements OnInit {
           }
           if (!alreadyInProductArray) {
             this.cartService.CartItemsArray().push(item);
+            console.log(this.cartService.CartItemsArray());
 
             alreadyInProductArray = false;
           }
@@ -362,8 +363,4 @@ export class CartComponent implements OnInit {
       }
     }
   }
-
-
 }
-
-
